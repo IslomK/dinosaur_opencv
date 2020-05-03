@@ -1,8 +1,6 @@
-# organize imports
 import cv2
 import imutils
 from pynput import keyboard
-import numpy as np
 
 kb = keyboard.Controller()
 bg = None
@@ -15,7 +13,6 @@ def run_avg(image, aWeight):
         bg = image.copy().astype("float")
         return
 
-    # compute weighted average, accumulate it and update the background
     cv2.accumulateWeighted(image, bg, aWeight)
 
 
@@ -33,10 +30,8 @@ if __name__ == "__main__":
 
     aWeight = 0.5
 
-    # get the reference to the webcam
     camera = cv2.VideoCapture(2)
     camera.set(cv2.CAP_PROP_AUTOFOCUS, 1)
-    # region of interest (ROI) coordinates
     top, right, bottom, left = 100, 0, 300, 700
 
     num_frames = 0
@@ -44,13 +39,9 @@ if __name__ == "__main__":
     while(True):
         (grabbed, frame) = camera.read()
 
-        # resize the frame
         frame = imutils.resize(frame, width=700)
-
-        # clone the frame
         clone = frame.copy()
 
-        # get the height and width of the frame
         (height, width) = frame.shape[:2]
 
         # get the ROI
@@ -60,8 +51,6 @@ if __name__ == "__main__":
         gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
         gray = cv2.GaussianBlur(gray, (7, 7), 0)
 
-        # to get the background, keep looking till a threshold is reached
-        # so that our running average model gets calibrated
         keypress = cv2.waitKey(1) & 0xFF
 
         if num_frames < 30:
@@ -70,10 +59,7 @@ if __name__ == "__main__":
             # segment the hand region
             obj = segment(gray)
 
-            # check whether hand region is segmented
             if obj is not None:
-                # if yes, unpack the thresholded image and
-                # segmented region
                 (thresholded, cnts) = obj
 
                 for c in cnts:
