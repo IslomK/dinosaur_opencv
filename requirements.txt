@@ -1,7 +1,7 @@
 imutils==0.5.3
 numpy==1.18.3
 opencv-contrib-python==4.2.0.34
-opencv-python==4.2.0.34
+opencv-python==4.8.1.78
 pandas==1.0.3
 pkg-resources==0.0.0
 pynput==1.0.3
